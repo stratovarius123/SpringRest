@@ -1,11 +1,13 @@
 package br.com.curso2.curso2.domain;
 
 import java.io.Serializable;
-
+import java.util.ArrayList;
+import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 
 @Entity
 public class Categoria implements Serializable{
@@ -17,6 +19,10 @@ public class Categoria implements Serializable{
 	private Integer id;
 	
 	private String categoria;
+	
+	@ManyToMany(mappedBy="categoria")
+	private List<Produto> produto = new ArrayList<Produto>();
+	
 	
 	public Categoria(){
 		
@@ -44,6 +50,8 @@ public class Categoria implements Serializable{
 		this.categoria = categoria;
 	}
 
+	
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -67,5 +75,13 @@ public class Categoria implements Serializable{
 		} else if (!id.equals(other.id))
 			return false;
 		return true;
+	}
+
+	public List<Produto> getProduto() {
+		return produto;
+	}
+
+	public void setProduto(List<Produto> produto) {
+		this.produto = produto;
 	}
 }
