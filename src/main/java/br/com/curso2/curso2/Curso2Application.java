@@ -34,13 +34,14 @@ public class Curso2Application implements CommandLineRunner {
 		Produto p1 = new Produto(null,"Computador",2000.00);
 		Produto p2 = new Produto(null,"Impressora",800.00);
 		Produto p3 = new Produto(null,"Mouse",80.00);
-	
-		categoria.getProduto().addAll(Arrays.asList(p1,p2,p3));
-		categoria2.getProduto().addAll(Arrays.asList(p2));
+
+		categoria.getProdutos().addAll(Arrays.asList(p1,p2,p3));
+		categoria2.getProdutos().addAll(Arrays.asList(p2));
 		
-		p1.getCategorias().add(categoria);
+	
+		p1.getCategorias().addAll(Arrays.asList(categoria));
 		p2.getCategorias().addAll(Arrays.asList(categoria,categoria2));
-		p3.getCategorias().add(categoria);
+		p3.getCategorias().addAll(Arrays.asList(categoria));
 		
 		
 		categoriaRepository.save(Arrays.asList(categoria,categoria2));

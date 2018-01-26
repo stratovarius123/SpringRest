@@ -12,26 +12,26 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 
-import com.fasterxml.jackson.annotation.JsonIdentityReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
 public class Produto implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Integer id;
 	
 	private String nome;
 	
 	private Double preco;
-	
-	@JsonIdentityReference
+		
+	@JsonManagedReference
 	@ManyToMany
 	@JoinTable(name="categoria_produto",
 				joinColumns=@JoinColumn(name = "produto_id"),
 				inverseJoinColumns=@JoinColumn(name = "categoria_id"))
-	private List<Categoria> categoria = new ArrayList<Categoria>();
+	private List<Categoria> categorias = new ArrayList<Categoria>();
 
 	public Integer getId() {
 		return id;
@@ -50,14 +50,6 @@ public class Produto implements Serializable {
 	}
 
 	
-	public List<Categoria> getCategorias() {
-		return categoria;
-	}
-
-	public void setCategorias(List<Categoria> categorias) {
-		this.categoria = categorias;
-	}
-
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -99,6 +91,14 @@ public class Produto implements Serializable {
 
 	public void setPreco(Double preco) {
 		this.preco = preco;
+	}
+
+	public List<Categoria> getCategorias() {
+		return categorias;
+	}
+
+	public void setCategorias(List<Categoria> categorias) {
+		this.categorias = categorias;
 	}
 	
 }

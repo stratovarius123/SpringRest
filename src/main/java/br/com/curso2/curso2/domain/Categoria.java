@@ -14,19 +14,17 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 
 @Entity
 public class Categoria implements Serializable{
-	
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY )
+	@GeneratedValue(strategy=GenerationType.IDENTITY )
 	private Integer id;
 	
 	private String categoria;
 	
 	@JsonBackReference
-	@ManyToMany(mappedBy="categoria")
-	private List<Produto> produto = new ArrayList<Produto>();
-	
+	@ManyToMany(mappedBy="categorias")
+	private List<Produto> produtos = new ArrayList<Produto>();
 	
 	public Categoria(){
 		
@@ -54,8 +52,14 @@ public class Categoria implements Serializable{
 		this.categoria = categoria;
 	}
 
+	public List<Produto> getProdutos() {
+		return produtos;
+	}
 	
-
+	public void setProdutos(List<Produto> produtos) {
+		this.produtos = produtos;
+	}
+	
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -78,14 +82,8 @@ public class Categoria implements Serializable{
 				return false;
 		} else if (!id.equals(other.id))
 			return false;
+		
 		return true;
 	}
 
-	public List<Produto> getProduto() {
-		return produto;
-	}
-
-	public void setProduto(List<Produto> produto) {
-		this.produto = produto;
-	}
 }
