@@ -1,8 +1,10 @@
-package br.com.curso2.curso2.domain;
+package br.com.cadastro.domain;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -11,8 +13,9 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 public class Produto implements Serializable {
@@ -25,8 +28,29 @@ public class Produto implements Serializable {
 	private String nome;
 	
 	private Double preco;
-		
-	@JsonManagedReference
+	
+	@JsonIgnore
+	@OneToMany(mappedBy="id.produto")
+	private Set<ItemPedido> itens = new HashSet<ItemPedido>();
+	
+	@JsonIgnore
+	public List<Pedido> getpedidos(){
+		List<Pedido> lista = new ArrayList<Pedido>();
+		for (ItemPedido itemPedido : itens) {
+			lista.add(itemPedido.getPedido());
+		}
+		return lista;
+	}
+	
+	public Set<ItemPedido> getItens() {
+		return itens;
+	}
+
+	public void setItens(Set<ItemPedido> itens) {
+		this.itens = itens;
+	}
+
+	@JsonIgnore
 	@ManyToMany
 	@JoinTable(name="categoria_produto",
 				joinColumns=@JoinColumn(name = "produto_id"),

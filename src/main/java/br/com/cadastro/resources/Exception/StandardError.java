@@ -1,4 +1,4 @@
-package br.com.curso2.curso2.resources.Exception;
+package br.com.cadastro.resources.Exception;
 
 import java.io.Serializable;
 

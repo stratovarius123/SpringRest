@@ -1,4 +1,4 @@
-package br.com.curso2.curso2.resources;
+package br.com.cadastro.resources;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -7,19 +7,19 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.com.curso2.curso2.domain.Categoria;
-import br.com.curso2.curso2.services.CategoriaService;
+import br.com.cadastro.domain.Pedido;
+import br.com.cadastro.services.PedidoService;
 
 @RestController
-@RequestMapping(value="/categorias")
-public class CategoriaResource {
+@RequestMapping(value="/pedidos")
+public class PedidoResource {
 	
 	@Autowired
-	CategoriaService categoriaService;
+	PedidoService PedidoService;
 	
 	@RequestMapping(value="/{id}", method = RequestMethod.GET)
 	public ResponseEntity<?> buscar(@PathVariable Integer id){
-		Categoria categoria = categoriaService.buscar(id);
-		return ResponseEntity.ok().body(categoria);
+		Pedido pedido = PedidoService.buscar(id);
+		return ResponseEntity.ok().body(pedido);
 	}
 }

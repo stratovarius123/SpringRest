@@ -1,4 +1,4 @@
-package br.com.curso2.curso2.domain;
+package br.com.cadastro.domain;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -10,8 +10,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-
 @Entity
 public class Categoria implements Serializable{
 	private static final long serialVersionUID = 1L;
@@ -22,7 +20,7 @@ public class Categoria implements Serializable{
 	
 	private String categoria;
 	
-	@JsonBackReference
+	
 	@ManyToMany(mappedBy="categorias")
 	private List<Produto> produtos = new ArrayList<Produto>();
 	

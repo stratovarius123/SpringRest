@@ -1,4 +1,4 @@
-package br.com.curso2.curso2.resources.Exception;
+package br.com.cadastro.resources.Exception;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -7,7 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
-import br.com.curso2.curso2.services.Exceptions.ObjectNotFoundException;
+import br.com.cadastro.services.Exceptions.ObjectNotFoundException;
 
 @ControllerAdvice
 public class ResourceExceptionHandler {

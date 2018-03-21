@@ -1,11 +1,11 @@
-package br.com.curso2.curso2.services;
+package br.com.cadastro.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import br.com.curso2.curso2.domain.Categoria;
-import br.com.curso2.curso2.repositories.CategoriaRepository;
-import br.com.curso2.curso2.services.Exceptions.ObjectNotFoundException;
+import br.com.cadastro.domain.Categoria;
+import br.com.cadastro.repositories.CategoriaRepository;
+import br.com.cadastro.services.Exceptions.ObjectNotFoundException;
 
 @Service
 public class CategoriaService {
