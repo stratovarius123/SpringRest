@@ -13,7 +13,7 @@ public class CategoriaService {
 	@Autowired
 	CategoriaRepository CategoriaDao;
 	
-	public Categoria buscar(Integer id){
+	public Categoria find(Integer id){
 		Categoria categoria = CategoriaDao.findOne(id);
 		if(categoria == null) {
 			throw new ObjectNotFoundException("Objeto não encontrado");
@@ -21,4 +21,8 @@ public class CategoriaService {
 		return categoria;
 	}
 	
+	public Categoria save(Categoria cad){
+		cad.setId(null);
+		return CategoriaDao.save(cad);
+	}
 }
