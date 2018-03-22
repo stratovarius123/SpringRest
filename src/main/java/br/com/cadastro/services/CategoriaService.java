@@ -1,6 +1,7 @@
 package br.com.cadastro.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import br.com.cadastro.domain.Categoria;
@@ -21,8 +22,22 @@ public class CategoriaService {
 		return categoria;
 	}
 	
-	public Categoria save(Categoria cad){
-		cad.setId(null);
-		return CategoriaDao.save(cad);
+	public Categoria save(Categoria cat){
+		cat.setId(null);
+		return CategoriaDao.save(cat);
 	}
+	
+	public Categoria update(Categoria cat){
+		Categoria categoria = this.find(cat.getId());
+		return  CategoriaDao.save(categoria);
+	}
+	
+	public void delete(Integer id){
+		try{
+			CategoriaDao.delete(id);
+		}catch(DataIntegrityViolationException e){
+			throw new br.com.cadastro.services.Exceptions.DataIntegrityViolationException("Não é possivel deletar pois a produto vinculado a essa categoria");
+		}
+	}
+	
 }

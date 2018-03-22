@@ -28,10 +28,16 @@ public class CategoriaResource {
 	}
 	
 	@RequestMapping(method = RequestMethod.POST)
-	public ResponseEntity<Void> insert(@RequestBody Categoria cad){
+	public ResponseEntity<Categoria> insert(@RequestBody Categoria cad){
 		cad = categoriaService.save(cad);
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequestUri().path("/{id}").buildAndExpand(cad.getId()).toUri();
 		return ResponseEntity.created(uri).build();
 	}
 	
+	@RequestMapping(value="/{id}" , method=RequestMethod.PUT)
+	public ResponseEntity<Categoria> update(@RequestBody Categoria cad, @PathVariable Integer id){
+		cad.setId(id);
+		categoriaService.update(cad);
+		return ResponseEntity.noContent().build();
+	}
 }
