@@ -60,4 +60,7 @@ public class CategoriaService {
 		return CategoriaDao.findAll(pageRequest);
 	}
 	
+	public Categoria fromDTO(CategoriaDTO categoriaDto){
+		return new Categoria(categoriaDto.getId(),categoriaDto.getCategoria());
+	}
 }
