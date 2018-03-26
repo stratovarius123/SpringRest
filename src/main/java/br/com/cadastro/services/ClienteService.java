@@ -9,7 +9,9 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 
+import br.com.cadastro.domain.Categoria;
 import br.com.cadastro.domain.Cliente;
+import br.com.cadastro.dto.CategoriaDTO;
 import br.com.cadastro.dto.ClienteDTO;
 import br.com.cadastro.repositories.ClienteRepository;
 import br.com.cadastro.services.Exceptions.ObjectNotFoundException;

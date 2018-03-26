@@ -44,6 +44,7 @@ public class CategoriaService {
 	
 	public Categoria update(Categoria cat){
 		Categoria categoria = this.find(cat.getId());
+		updateData(categoria,cat);
 		return  CategoriaDao.save(categoria);
 	}
 	
@@ -63,4 +64,9 @@ public class CategoriaService {
 	public Categoria fromDTO(CategoriaDTO categoriaDto){
 		return new Categoria(categoriaDto.getId(),categoriaDto.getCategoria());
 	}
+	
+	private void updateData(Categoria newCategoria, Categoria categoria){
+		newCategoria.setCategoria(categoria.getCategoria());
+	}
+	
 }
