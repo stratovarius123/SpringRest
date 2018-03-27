@@ -16,8 +16,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import br.com.cadastro.domain.Categoria;
 import br.com.cadastro.domain.Cliente;
+import br.com.cadastro.dto.CategoriaDTO;
 import br.com.cadastro.dto.ClienteDTO;
+import br.com.cadastro.dto.ClienteNewDTO;
 import br.com.cadastro.services.ClienteService;
 
 @RestController
@@ -27,12 +30,22 @@ public class ClienteResource {
 	@Autowired
 	ClienteService clienteRepository;
 	
+	
 	@RequestMapping(value="/{id}", method = RequestMethod.GET)
 	public ResponseEntity<?> find(@PathVariable Integer id){
 		Cliente cliente = clienteRepository.find(id);
 		return ResponseEntity.ok().body(cliente);
 	}
 	
+	@RequestMapping(method = RequestMethod.POST)
+	public ResponseEntity<Categoria> insert(@Valid @RequestBody ClienteNewDTO cli){
+		Cliente fromDTO = clienteRepository.fromDTO(cli);
+		fromDTO = clienteRepository.save(fromDTO);
+		URI uri = ServletUriComponentsBuilder.fromCurrentRequestUri().path("/{id}").buildAndExpand(fromDTO.getId()).toUri();
+		return ResponseEntity.created(uri).build();
+	}
+	
+
 	@RequestMapping(method = RequestMethod.POST)
 	public ResponseEntity<Cliente> insert(@Valid @RequestBody ClienteDTO cad){
 		Cliente fromDTO = clienteRepository.fromDTO(cad);
