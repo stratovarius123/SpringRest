@@ -2,25 +2,49 @@ package br.com.cadastro.dto;
 
 import java.io.Serializable;
 
+import javax.validation.constraints.NotNull;
+
+import org.hibernate.validator.constraints.Email;
+import org.hibernate.validator.constraints.Length;
+
+import br.com.cadastro.services.validation.ClienteInsert;
+
+@ClienteInsert
 public class ClienteNewDTO implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	public ClienteNewDTO(){} 
 	
+	@NotNull(message="Campo Obrigatorio!")
+	@Length(min=5,max=120,message="O campo deve ter entre 5 e 120 caracteres")
 	private String nome;
+	
+	@NotNull(message="Campo Obrigatorio!")
+	@Email
 	private String email;
 	private String cpfOuCnpj;
 	private int tipo;
 	
+	@NotNull(message="Campo Obrigatorio!")
 	private String logradouro;
+	
+	@NotNull(message="Campo Obrigatorio!")
 	private String numero;
+	
+	@NotNull(message="Campo Obrigatorio!")
 	private String complemento;
+	
+	@NotNull(message="Campo Obrigatorio!")
 	private String bairro;
+	
+	@NotNull(message="Campo Obrigatorio!")
 	private String cep;
 	
-	
+	@NotNull(message="Campo Obrigatorio!")
 	private String telefone1;
+	
 	private String telefone2;
+	
 	private String telefone3;
 	
 	private Integer cidadeId;
