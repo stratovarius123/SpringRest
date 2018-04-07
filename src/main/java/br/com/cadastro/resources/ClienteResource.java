@@ -46,14 +46,6 @@ public class ClienteResource {
 	}
 	
 
-	@RequestMapping(method = RequestMethod.POST)
-	public ResponseEntity<Cliente> insert(@Valid @RequestBody ClienteDTO cad){
-		Cliente fromDTO = clienteRepository.fromDTO(cad);
-		fromDTO = clienteRepository.save(fromDTO);
-		URI uri = ServletUriComponentsBuilder.fromCurrentRequestUri().path("/{id}").buildAndExpand(cad.getId()).toUri();
-		return ResponseEntity.created(uri).build();
-	}
-	
 	@RequestMapping(value="/{id}" , method=RequestMethod.PUT)
 	public ResponseEntity<Cliente> update(@Valid @RequestBody ClienteDTO cad, @PathVariable Integer id){
 		cad.setId(id);
