@@ -43,6 +43,15 @@ public class Pedido implements Serializable {
 		this.itens = itens;
 	}
 	
+	public double getValorTotal(){
+		double soma = 0.0;
+	
+		for (ItemPedido itemPedido : itens) {
+			soma = itemPedido.getSubtotal() + soma;
+		} 
+		
+		return soma;
+	}
 	
 	@ManyToOne
 	@JoinColumn(name="cliente_id")
