@@ -1,8 +1,11 @@
 package br.com.cadastro.domain;
 
 import java.io.Serializable;
+import java.text.NumberFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.Locale;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -21,6 +24,17 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 public class Pedido implements Serializable {
 
 	private static final long serialVersionUID = 1L;
+	
+	public Pedido(){
+	}
+	
+	public Pedido(Integer id, Date data, Cliente cliente, Endereco endereco) {
+		super();
+		this.id = id;
+		this.data = data;
+		this.cliente = cliente;
+		this.endereco = endereco;
+	}
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
@@ -61,14 +75,6 @@ public class Pedido implements Serializable {
 	@JoinColumn(name="endereco_id")
 	private Endereco endereco;
 	
-	
-	public Pedido(Integer id, Date data, Cliente cliente, Endereco endereco) {
-		super();
-		this.id = id;
-		this.data = data;
-		this.cliente = cliente;
-		this.endereco = endereco;
-	}
 
 	public Pagamento getPagamento() {
 		return pagamento;
@@ -94,10 +100,6 @@ public class Pedido implements Serializable {
 		this.endereco = endereco;
 	}
 
-	public Pedido(){
-		
-	}
-	
 	public Integer getId() {
 		return id;
 	}
@@ -134,5 +136,29 @@ public class Pedido implements Serializable {
 			return false;
 		return true;
 	}
-	
+
+	@Override
+	public String toString() {
+		NumberFormat formataNumeroPorDinheiro = NumberFormat.getCurrencyInstance(new Locale("pt", "BR"));
+		SimpleDateFormat formatadaData  = new SimpleDateFormat("dd/MM/yyyy hh:mm:ss");
+		
+		StringBuilder builder = new StringBuilder();
+		builder.append("Pedido Número : ");
+		builder.append(getId());
+		builder.append(", Instante :");
+		builder.append(formatadaData.format(getData()));
+		builder.append(", Cliente :");
+		builder.append(getCliente().getNome());
+		builder.append(", Situação pagamento : ");
+		builder.append(getPagamento().getEstadoPagamento().getDescricao());
+		builder.append("\n Detalhes : \n");
+
+		for (ItemPedido itemPedido : getItens()) {
+			builder.append(itemPedido.toString());
+		} 
+		
+		builder.append("Valor Total: ");
+		builder.append(formataNumeroPorDinheiro.format(getValorTotal()));
+		return builder.toString();
+	}
 }

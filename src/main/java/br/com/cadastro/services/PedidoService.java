@@ -9,6 +9,7 @@ import br.com.cadastro.domain.ItemPedido;
 import br.com.cadastro.domain.PagamentoComBoleto;
 import br.com.cadastro.domain.Pedido;
 import br.com.cadastro.domain.enums.EstadoPagamento;
+import br.com.cadastro.repositories.ClienteRepository;
 import br.com.cadastro.repositories.ItemPedidoRepository;
 import br.com.cadastro.repositories.PagamentoRepository;
 import br.com.cadastro.repositories.PedidoRepository;
@@ -33,6 +34,12 @@ public class PedidoService {
 	@Autowired
 	ItemPedidoRepository itemPedidoRepository;
 	
+	@Autowired
+	ClienteRepository clienteRepository;
+	
+	@Autowired
+	EmailService emailService;
+	
 	public Pedido buscar(Integer id){
 		Pedido pedido = pedidoDao.findOne(id);
 		if(pedido == null) {
@@ -44,6 +51,7 @@ public class PedidoService {
 	public Pedido save(Pedido pedido) {
 		pedido.setId(null);
 		pedido.setData(new Date());
+		pedido.setCliente(clienteRepository.findOne(pedido.getCliente().getId()));
 		pedido.getPagamento().setEstadoPagamento(EstadoPagamento.PENDENTE);
 		pedido.getPagamento().setPedido(pedido);
 		if(pedido.getPagamento() instanceof PagamentoComBoleto){
@@ -56,11 +64,13 @@ public class PedidoService {
 		
 		for (ItemPedido item : pedido.getItens()) {
 			item.setDesconto(0);
-			item.setPreco(produtoRepository.findOne(item.getProduto().getId()).getPreco());
+			item.setProduto(produtoRepository.findOne(item.getProduto().getId()));
+			item.setPreco(item.getProduto().getPreco());
 			item.setPedido(pedido);
 		} 
 		
 		itemPedidoRepository.save(pedido.getItens());
+		emailService.sendOrderConfirmationHtmlEmail(pedidoSalvo);
 		
 		return pedidoSalvo;
 	

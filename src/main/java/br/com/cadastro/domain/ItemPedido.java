@@ -1,6 +1,9 @@
 package br.com.cadastro.domain;
 
 import java.io.Serializable;
+import java.text.NumberFormat;
+import java.text.SimpleDateFormat;
+import java.util.Locale;
 
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
@@ -111,6 +114,20 @@ public class ItemPedido implements Serializable {
 		this.quantidade = quantidade;
 		this.preco = preco;
 	}
-	
-	
+
+	@Override
+	public String toString() {
+		NumberFormat formataNumeroPorDinheiro = NumberFormat.getCurrencyInstance(new Locale("pt", "BR"));
+
+		StringBuilder builder = new StringBuilder();
+		builder.append(getProduto().getNome());
+		builder.append(", Qtde: ");
+		builder.append(getQuantidade());
+		builder.append(", Preço unitário: ");
+		builder.append(formataNumeroPorDinheiro.format(getPreco()));
+		builder.append(", SubTotal: ");
+		builder.append(formataNumeroPorDinheiro.format(getSubtotal()));
+		builder.append("\n");
+		return builder.toString();
+	}
 }
