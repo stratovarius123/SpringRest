@@ -6,6 +6,7 @@ import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.Length;
+import org.hibernate.validator.constraints.NotEmpty;
 
 import br.com.cadastro.services.validation.ClienteInsert;
 
@@ -24,6 +25,10 @@ public class ClienteNewDTO implements Serializable {
 	private String email;
 	private String cpfOuCnpj;
 	private int tipo;
+	
+	@NotNull(message="Campo Obrigatorio!")
+	@NotEmpty
+	private String senha;
 	
 	@NotNull(message="Campo Obrigatorio!")
 	private String logradouro;
@@ -151,5 +156,13 @@ public class ClienteNewDTO implements Serializable {
 
 	public void setCidadeId(Integer cidadeId) {
 		this.cidadeId = cidadeId;
+	}
+
+	public String getSenha() {
+		return senha;
+	}
+
+	public void setSenha(String senha) {
+		this.senha = senha;
 	}
 }

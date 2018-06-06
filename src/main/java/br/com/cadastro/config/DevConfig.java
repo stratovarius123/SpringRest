@@ -24,9 +24,6 @@ public class DevConfig {
 	
 	@Bean
 	public boolean instantiateDatabase() throws ParseException{
-		if(!"create".equals(valorChave)){
-			return false;
-		}
 		dbServices.instantiateTestDatabase();
 		return true;
 	}

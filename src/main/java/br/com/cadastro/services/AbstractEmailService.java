@@ -9,12 +9,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.mail.javamail.MimeMailMessage;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
 
 import br.com.cadastro.domain.Pedido;
+
 
 public abstract class AbstractEmailService implements EmailService {
 
@@ -25,10 +25,10 @@ public abstract class AbstractEmailService implements EmailService {
 	private String sender;
 	
 	@Autowired
-	JavaMailSender javamail;
+	JavaMailSender javaMail;
 	
 	@Override
-	public void  sendOrderConfirmationEmail(Pedido pedido){
+	public void sendOrderConfirmationEmail(Pedido pedido){
 		SimpleMailMessage messagem  = prepareSimpleMailMessageFromPedido(pedido); 
 		sendEmail(messagem);	
 	}
@@ -62,7 +62,7 @@ public abstract class AbstractEmailService implements EmailService {
 	
 	protected MimeMessage prepareMimeMessageFromPedido(Pedido pedido) throws MessagingException {
 		
-		MimeMessage messagem = javamail.createMimeMessage();
+		MimeMessage messagem = javaMail.createMimeMessage();
 		MimeMessageHelper mmh = new MimeMessageHelper(messagem,true);
 		mmh.setTo(pedido.getCliente().getEmail());
 		mmh.setFrom(sender);
