@@ -7,18 +7,21 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort.Direction;
+import org.springframework.security.access.AuthorizationServiceException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import br.com.cadastro.domain.Cidade;
 import br.com.cadastro.domain.Cliente;
 import br.com.cadastro.domain.Endereco;
+import br.com.cadastro.domain.enums.Perfil;
 import br.com.cadastro.domain.enums.TipoCliente;
 import br.com.cadastro.dto.ClienteDTO;
 import br.com.cadastro.dto.ClienteNewDTO;
 import br.com.cadastro.repositories.CidadeRepository;
 import br.com.cadastro.repositories.ClienteRepository;
 import br.com.cadastro.repositories.EnderecoRepository;
+import br.com.cadastro.security.UserSS;
 import br.com.cadastro.services.Exceptions.ObjectNotFoundException;
 
 @Service
@@ -37,7 +40,13 @@ public class ClienteService {
 	BCryptPasswordEncoder bcrypt;
 	
 	public Cliente find(Integer id){
+		UserSS user = UserService.authenticated();
+		if(user == null || !user.hasRole(Perfil.ADMIN) && !id.equals(user.getId())){
+			throw new AuthorizationServiceException("Acesso Negado");
+		}
+		
 		Cliente cliente = clienteDao.findOne(id);
+		
 		if(cliente == null) {
 			throw new ObjectNotFoundException("Objeto não encontrado");
 		} 
