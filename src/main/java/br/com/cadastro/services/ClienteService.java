@@ -22,6 +22,7 @@ import br.com.cadastro.repositories.CidadeRepository;
 import br.com.cadastro.repositories.ClienteRepository;
 import br.com.cadastro.repositories.EnderecoRepository;
 import br.com.cadastro.security.UserSS;
+import br.com.cadastro.services.Exceptions.AuthorizationExcetion;
 import br.com.cadastro.services.Exceptions.ObjectNotFoundException;
 
 @Service
@@ -48,13 +49,28 @@ public class ClienteService {
 		Cliente cliente = clienteDao.findOne(id);
 		
 		if(cliente == null) {
-			throw new ObjectNotFoundException("Objeto não encontrado");
+			throw new ObjectNotFoundException("Cliente não encontrado");
 		} 
 		return cliente;
 	}
 	
 	public List<Cliente> findAll(){
 		return clienteDao.findAll();
+	}
+	
+	public Cliente findByEmail(String email){
+		
+		UserSS user = UserService.authenticated();
+		
+		if(user == null || !user.hasRole(Perfil.ADMIN) || !email.equals(email)){
+				throw new AuthorizationExcetion("Acesso Negado");
+		}
+
+		Cliente clienteEncontrado = clienteDao.findByEmail(email);
+		if(clienteEncontrado == null) {
+			throw new ObjectNotFoundException("Cliente não encontrado");
+		} 
+		return clienteEncontrado;
 	}
 	
 	public Cliente save(Cliente cliente){

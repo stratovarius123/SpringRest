@@ -15,6 +15,7 @@ import br.com.cadastro.services.SmtpEmailService;
 @Configuration
 @Profile("dev")
 public class DevConfig {
+	
 	@Autowired
 	private DBServices dbServices;
 	

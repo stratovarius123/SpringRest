@@ -37,6 +37,11 @@ public class ClienteResource {
 		return ResponseEntity.ok().body(cliente);
 	}
 	
+	@RequestMapping(value="/email", method = RequestMethod.GET)
+	public ResponseEntity<?> find(@RequestParam(value="value") String email){
+		Cliente cliente = clienteRepository.findByEmail(email);
+		return ResponseEntity.ok().body(cliente);
+	}
 	
 	@RequestMapping(method = RequestMethod.POST)
 	public ResponseEntity<Categoria> insert(@Valid @RequestBody ClienteNewDTO cli){
@@ -45,7 +50,6 @@ public class ClienteResource {
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequestUri().path("/{id}").buildAndExpand(fromDTO.getId()).toUri();
 		return ResponseEntity.created(uri).build();
 	}
-	
 
 	@RequestMapping(value="/{id}" , method=RequestMethod.PUT)
 	public ResponseEntity<Cliente> update(@Valid @RequestBody ClienteDTO cad, @PathVariable Integer id){
